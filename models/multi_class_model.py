@@ -9,13 +9,8 @@ import torch.nn as nn
 import pytorch_lightning as pl
 
 from transformers import BertModel
-from sklearn.metrics import classification_report
 
-# from torchmetrics import Accuracy
-
-from torchmetrics.classification import MulticlassAccuracy, MulticlassF1Score, PrecisionRecallCurve
-
-from sklearn.metrics import f1_score, accuracy_score
+from sklearn.metrics import classification_report, f1_score, accuracy_score
 
 import matplotlib.pyplot as plt
 from matplotlib.ticker import FormatStrFormatter
@@ -44,10 +39,6 @@ class MultiClassModel(pl.LightningModule):
         ## menghitung loss function
         self.criterion = nn.BCEWithLogitsLoss()
 
-        # self.accuracy = torchmetrics.Accuracy(task="multiclass")
-
-        # self.accuracy = MulticlassAccuracy(task="multiclass", num_classes = self.num_classes)
-    
     ## Model
     ## mengambil input dari bert, pre_classifier
     def forward(self, input_ids, attention_mask, token_type_ids):
@@ -84,21 +75,23 @@ class MultiClassModel(pl.LightningModule):
 
         pred = out.argmax(1).cpu()
         true = y.argmax(1).cpu()
-        f1_s = f1_score(true, pred, average='macro')
+        f1_s_micro = f1_score(true, pred, average='micro')
+        f1_s_macro = f1_score(true, pred, average='macro')
         
         avg_pred = sum(pred)/len(pred)
         predict = avg_pred.cpu().detach().numpy()
-        # acc = accuracy_score(pred, true)
+        acc = accuracy_score(pred, true)
 
-        # self.accuracy(out, y)
         # report = classification_report(true, pred, output_dict = True, zero_division = 0)
 
         # self.log("accuracy", report["accuracy"], prog_bar = True)
-        # self.log("accuracy", acc, prog_bar = True)
-        self.log("f1_score", f1_s, prog_bar = True)
+        self.log("accuracy", acc, prog_bar = True)
+        self.log("f1_score_micro", f1_s_micro, prog_bar = True)
+        self.log("f1_score_macro", f1_s_macro, prog_bar = True)
         self.log("loss", loss)
 
-        return {"loss": loss, "predictions": out, "F1": f1_s, "labels": y, "avg_pred": predict}
+        # return {"loss": loss, "predictions": out, "f1_micro": f1_s_micro, "f1_macro": f1_s_macro, "accuracy": report["accuracy"], "labels": y, "avg_pred": predict}
+        return {"loss": loss, "predictions": out, "f1_micro": f1_s_micro, "f1_macro": f1_s_macro, "accuracy": acc, "labels": y, "avg_pred": predict}
 
     def validation_step(self, batch, batch_idx):
         ## Tidak transfer weight
@@ -111,23 +104,25 @@ class MultiClassModel(pl.LightningModule):
         loss = self.criterion(out, target = y.float())
 
         pred = out.argmax(1).cpu()
-        true = y.argmax(1).cpu()
+        true = y.argmax(1).cpu() 
 
-        f1_s = f1_score(true, pred, average='macro')
+        f1_s_micro = f1_score(true, pred, average='micro')
+        f1_s_macro = f1_score(true, pred, average='macro')
         
         avg_pred = sum(pred)/len(pred)
         predict = avg_pred.cpu().detach().numpy()
-        # acc = accuracy_score(pred, true)
+        acc = accuracy_score(pred, true)
 
         # report = classification_report(true, pred, output_dict = True, zero_division = 0)
-        # self.accuracy(out, y)
 
+        self.log("f1_score_micro", f1_s_micro, prog_bar = True)
+        self.log("f1_score_macro", f1_s_macro, prog_bar = True)
         # self.log("accuracy", report["accuracy"], prog_bar = True)
-        self.log("f1_score", f1_s, prog_bar = True)
-        # self.log("accuracy", acc, prog_bar = True)
+        self.log("accuracy", acc, prog_bar = True)
         self.log("loss", loss)
 
-        return {"val_loss": loss, "predictions": out, "F1": f1_s, "labels": y, "avg_pred": predict}
+        # return {"val_loss": loss, "predictions": out, "f1_micro": f1_s_micro, "f1_macro": f1_s_macro, "accuracy": report["accuracy"], "avg_pred": predict}
+        return {"val_loss": loss, "predictions": out, "f1_micro": f1_s_micro, "f1_macro": f1_s_macro, "accuracy": acc, "avg_pred": predict}
     
     def test_step(self, batch, batch_idx):
         ## Tidak transfer weight
@@ -139,14 +134,16 @@ class MultiClassModel(pl.LightningModule):
 
         pred = out.argmax(1).cpu()
         true = y.argmax(1).cpu()
-        f1_s = f1_score(true, pred, average='macro')
+
+        f1_s_micro = f1_score(true, pred, average='micro')
+        f1_s_macro = f1_score(true, pred, average='macro')
+        acc = accuracy_score(pred, true)
+
+        self.log("f1_score_micro", f1_s_micro, prog_bar = True)
+        self.log("f1_score_macro", f1_s_macro, prog_bar = True)
+        self.log("accuracy", acc, prog_bar = True)
         
-        # acc = accuracy_score(pred, true)
-
-        self.log("f1_score", f1_s, prog_bar = True)
-        # self.log("accuracy", acc, prog_bar = True)
-
-        return {"predictions": pred, "labels": true, "F1": f1_s}
+        return {"predictions": pred, "labels": true, "f1_micro": f1_s_micro, "f1_macro": f1_s_macro, "accuracy": acc}
 
     def predict_step(self, batch, batch_idx):
         ## Tidak ada transfer weight

@@ -36,10 +36,10 @@ if __name__ == '__main__':
                  
     model = MultiClassModel(
         n_out = 22,
-        # dropout tentuin sendiri
+        ## dropout tentuin sendiri
         dropout = 0.3,    
 
-        # 1e-3 = 0.0001   
+        ## 1e-3 = 0.0001   
         lr = 1e-5
     )
 
