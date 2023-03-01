@@ -176,7 +176,7 @@ class MultiClassModel(pl.LightningModule):
         c_ax.set_ylabel(y_label)
         c_ax.yaxis.set_major_formatter(FormatStrFormatter('%.1f'))
         # c_ax.plot(data, marker='o', mfc='green', mec='yellow', ms='7')
-        c_ax.plot(data, ms='7')
+        c_ax.plot(data, marker='o', ms='7')
 
         for x_epoch, y_sc in enumerate(data):
             y_sc_lbl = '{:.2f}'.format(y_sc)
