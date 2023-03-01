@@ -1,2 +1,6 @@
+checkpoints
+models/__pycache__
+utils/__pycache__
+logs/
 labelToid.py
 split_dataset.py
