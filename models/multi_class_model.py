@@ -40,6 +40,7 @@ class MultiClassModel(pl.LightningModule):
         self.criterion = nn.BCEWithLogitsLoss()
 
         self.train_score = {
+            # 'labels': [],
             'loss': [],
             'f1_micro': [],
             'f1_macro': [],
@@ -47,6 +48,7 @@ class MultiClassModel(pl.LightningModule):
         }
 
         self.validation_score = {
+            # 'labels': [],
             'loss': [],
             'f1_micro': [],
             'f1_macro': [],
@@ -194,6 +196,7 @@ class MultiClassModel(pl.LightningModule):
 
     def training_epoch_end(self, outputs):
         scores = {
+            # 'labels': [],
             'loss': [],
             'f1_micro': [],
             'f1_macro': [],
@@ -201,12 +204,14 @@ class MultiClassModel(pl.LightningModule):
         }
 
         for output in outputs:
+            # scores['labels'].append(output['labels'])
             scores['f1_micro'].append(output['f1_micro'])
             scores['f1_macro'].append(output['f1_macro'])
             ## karena loss di kerjakan oleh gpu, maka harus di ubah ke cpu terlebih dahulu. agar loss dapat ditampilkan
             scores['loss'].append(output['loss'].detach().cpu().item())
             scores['accuracy'].append(output['accuracy'])
         
+        # self.train_score['labels'].append(scores['labels'])
         self.train_score['f1_micro'].append(mean(scores['f1_micro']))
         self.train_score['f1_macro'].append(mean(scores['f1_macro']))
         self.train_score['loss'].append(mean(scores['loss']))
@@ -224,6 +229,7 @@ class MultiClassModel(pl.LightningModule):
     
     def validation_epoch_end(self, outputs):
         scores = {
+            # 'labels': [],
             'loss': [],
             'f1_micro': [],
             'f1_macro': [],
@@ -231,11 +237,13 @@ class MultiClassModel(pl.LightningModule):
         }
 
         for output in outputs:
+            # scores['labels'].append(output['labels'])
             scores['f1_micro'].append(output['f1_micro'])
             scores['f1_macro'].append(output['f1_macro'])
             scores['loss'].append(output['val_loss'].detach().cpu().item())
             scores['accuracy'].append(output['accuracy'])
         
+        # self.validation_score['labels'].append(scores['labels'])
         self.validation_score['f1_micro'].append(mean(scores['f1_micro']))
         self.validation_score['f1_macro'].append(mean(scores['f1_macro']))
         self.validation_score['loss'].append(mean(scores['loss']))
