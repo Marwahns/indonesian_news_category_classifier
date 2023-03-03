@@ -13,7 +13,6 @@ import pandas as pd
 from Sastrawi.Stemmer.StemmerFactory import StemmerFactory
 from transformers import BertTokenizer
 
-
 # untuk membuat progress bar
 from tqdm import tqdm 
 
@@ -47,28 +46,28 @@ class PreprocessorClass(pl.LightningDataModule):
 
         ## inisialisai isi label menjadi id
         self.label2id = {
-            'politik': 0,
-            'global': 1,
-            'hukum': 2,
-            'peristiwa': 3,
-            'ekbis': 4,
-            'kesehatan': 5,
-            'nasional': 6,
-            'kolom': 7,
-            'hankam': 8,
-            'entertainment': 9,
-            'daerah': 10,
-            'seleb': 11,
-            'metro': 12,
-            'history': 13,
-            'techno': 14,
-            'sosmed': 15,
-            'sport': 16,
+            'daerah': 0,
+            'ekbis': 1,
+            'entertainment': 2,
+            'foto': 3,
+            'global': 4,
+            'hankam': 5,
+            'history': 6,
+            'hukum': 7,
+            'kesehatan': 8,
+            'khazanah': 9,
+            'lifestyle': 10,
+            'metro': 11,
+            'militer': 12,
+            'nasional': 13,
+            'otomotif': 14,
+            'peristiwa': 15,
+            'politik': 16,
             'property': 17,
-            'foto': 18,
-            'nan': 19,
-            'khazanah': 20,
-            'otomotif': 21
+            'seleb': 18,
+            'sosmed': 19,
+            'sport': 20,
+            'techno': 21
         }
 
         ## konversi label menjadi id
@@ -116,7 +115,7 @@ class PreprocessorClass(pl.LightningDataModule):
             test_csv = pd.read_csv(tsdr)
             test_csv['label'] = test_csv['label'].str.lower()
             test = pd.DataFrame({'judul':test_csv['judul'], 'label': test_csv['label'], 'isi_berita': test_csv['isi_berita'], 'url': test_csv['url']})
-        
+    
         ## Mengetahui apa saja label yang ada di dalam dataset
         label_yang_ada = train["label"].drop_duplicates()
         # print(label_yang_ada)
