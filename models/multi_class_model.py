@@ -46,7 +46,7 @@ class MultiClassModel(pl.LightningModule):
             'accuracy': []
         }
 
-        self.train_label = {
+        self.train_true_labels_count = {
             'daerah': [],
             'ekbis': [],
             'entertainment': [],
@@ -71,7 +71,7 @@ class MultiClassModel(pl.LightningModule):
             'techno': []
         }
 
-        self.train_labels_count = {
+        self.train_prediction_labels_count = {
             'daerah': [],
             'ekbis': [],
             'entertainment': [],
@@ -103,7 +103,7 @@ class MultiClassModel(pl.LightningModule):
             'accuracy': []
         }
 
-        self.validation_label = {
+        self.validation_true_labels_count = {
             'daerah': [],
             'ekbis': [],
             'entertainment': [],
@@ -128,7 +128,7 @@ class MultiClassModel(pl.LightningModule):
             'techno': []
         }
 
-        self.validation_labels_count = {
+        self.validation_prediction_labels_count = {
             'daerah': [],
             'ekbis': [],
             'entertainment': [],
@@ -300,7 +300,7 @@ class MultiClassModel(pl.LightningModule):
             'accuracy': []
         }
 
-        labels = {
+        true_labels = {
             'daerah': [],
             'ekbis': [],
             'entertainment': [],
@@ -325,7 +325,7 @@ class MultiClassModel(pl.LightningModule):
             'techno': []
         }
 
-        labels_count = {
+        prediction_labels = {
             'daerah': [],
             'ekbis': [],
             'entertainment': [],
@@ -354,130 +354,131 @@ class MultiClassModel(pl.LightningModule):
             ## append = menambahkan item dari belakang
             ## karena loss di kerjakan oleh gpu, maka harus di ubah ke cpu terlebih dahulu. agar loss dapat ditampilkan
 
-            ## labels
-            labels['daerah'].append(output['labels'][0][0].detach().cpu().item())
-            labels['ekbis'].append(output['labels'][0][1].detach().cpu().item())
-            labels['entertainment'].append(output['labels'][0][2].detach().cpu().item())
-            labels['foto'].append(output['labels'][0][3].detach().cpu().item())
-            labels['global'].append(output['labels'][0][4].detach().cpu().item())
-            labels['hankam'].append(output['labels'][0][5].detach().cpu().item())
-            labels['history'].append(output['labels'][0][6].detach().cpu().item())
-            labels['hukum'].append(output['labels'][0][7].detach().cpu().item())
-            labels['kesehatan'].append(output['labels'][0][8].detach().cpu().item())
-            labels['khazanah'].append(output['labels'][0][9].detach().cpu().item())
-            labels['lifestyle'].append(output['labels'][0][10].detach().cpu().item())
-            labels['metro'].append(output['labels'][0][11].detach().cpu().item())
-            labels['militer'].append(output['labels'][0][12].detach().cpu().item())
-            labels['nasional'].append(output['labels'][0][13].detach().cpu().item())
-            labels['otomotif'].append(output['labels'][0][14].detach().cpu().item())
-            labels['peristiwa'].append(output['labels'][0][15].detach().cpu().item())
-            labels['politik'].append(output['labels'][0][16].detach().cpu().item())
-            labels['property'].append(output['labels'][0][17].detach().cpu().item())
-            labels['seleb'].append(output['labels'][0][18].detach().cpu().item())
-            labels['sosmed'].append(output['labels'][0][19].detach().cpu().item())
-            labels['sport'].append(output['labels'][0][20].detach().cpu().item())
-            labels['techno'].append(output['labels'][0][21].detach().cpu().item())
+            ## True Labels
+            true_labels['daerah'].append(output['labels'][0][0].detach().cpu().item())
+            true_labels['ekbis'].append(output['labels'][0][1].detach().cpu().item())
+            true_labels['entertainment'].append(output['labels'][0][2].detach().cpu().item())
+            true_labels['foto'].append(output['labels'][0][3].detach().cpu().item())
+            true_labels['global'].append(output['labels'][0][4].detach().cpu().item())
+            true_labels['hankam'].append(output['labels'][0][5].detach().cpu().item())
+            true_labels['history'].append(output['labels'][0][6].detach().cpu().item())
+            true_labels['hukum'].append(output['labels'][0][7].detach().cpu().item())
+            true_labels['kesehatan'].append(output['labels'][0][8].detach().cpu().item())
+            true_labels['khazanah'].append(output['labels'][0][9].detach().cpu().item())
+            true_labels['lifestyle'].append(output['labels'][0][10].detach().cpu().item())
+            true_labels['metro'].append(output['labels'][0][11].detach().cpu().item())
+            true_labels['militer'].append(output['labels'][0][12].detach().cpu().item())
+            true_labels['nasional'].append(output['labels'][0][13].detach().cpu().item())
+            true_labels['otomotif'].append(output['labels'][0][14].detach().cpu().item())
+            true_labels['peristiwa'].append(output['labels'][0][15].detach().cpu().item())
+            true_labels['politik'].append(output['labels'][0][16].detach().cpu().item())
+            true_labels['property'].append(output['labels'][0][17].detach().cpu().item())
+            true_labels['seleb'].append(output['labels'][0][18].detach().cpu().item())
+            true_labels['sosmed'].append(output['labels'][0][19].detach().cpu().item())
+            true_labels['sport'].append(output['labels'][0][20].detach().cpu().item())
+            true_labels['techno'].append(output['labels'][0][21].detach().cpu().item())
 
-            ## scores
+            ## Prediction Labels
+            prediction_labels['daerah'].append(output['predictions'][0][0].detach().cpu().item())
+            prediction_labels['ekbis'].append(output['predictions'][0][1].detach().cpu().item())
+            prediction_labels['entertainment'].append(output['predictions'][0][2].detach().cpu().item())
+            prediction_labels['foto'].append(output['predictions'][0][3].detach().cpu().item())
+            prediction_labels['global'].append(output['predictions'][0][4].detach().cpu().item())
+            prediction_labels['hankam'].append(output['predictions'][0][5].detach().cpu().item())
+            prediction_labels['history'].append(output['predictions'][0][6].detach().cpu().item())
+            prediction_labels['hukum'].append(output['predictions'][0][7].detach().cpu().item())
+            prediction_labels['kesehatan'].append(output['predictions'][0][8].detach().cpu().item())
+            prediction_labels['khazanah'].append(output['predictions'][0][9].detach().cpu().item())
+            prediction_labels['lifestyle'].append(output['predictions'][0][10].detach().cpu().item())
+            prediction_labels['metro'].append(output['predictions'][0][11].detach().cpu().item())
+            prediction_labels['militer'].append(output['predictions'][0][12].detach().cpu().item())
+            prediction_labels['nasional'].append(output['predictions'][0][13].detach().cpu().item())
+            prediction_labels['otomotif'].append(output['predictions'][0][14].detach().cpu().item())
+            prediction_labels['peristiwa'].append(output['predictions'][0][15].detach().cpu().item())
+            prediction_labels['politik'].append(output['predictions'][0][16].detach().cpu().item())
+            prediction_labels['property'].append(output['predictions'][0][17].detach().cpu().item())
+            prediction_labels['seleb'].append(output['predictions'][0][18].detach().cpu().item())
+            prediction_labels['sosmed'].append(output['predictions'][0][19].detach().cpu().item())
+            prediction_labels['sport'].append(output['predictions'][0][20].detach().cpu().item())
+            prediction_labels['techno'].append(output['predictions'][0][21].detach().cpu().item())
+
+            ## Scores
             scores['f1_micro'].append(output['f1_micro'])
             scores['f1_macro'].append(output['f1_macro'])
             scores['loss'].append(output['loss'].detach().cpu().item())
             scores['accuracy'].append(output['accuracy'])
         
-        ## labels
-        self.train_label['daerah'].append(labels['daerah'])
-        self.train_label['ekbis'].append(labels['ekbis'])
-        self.train_label['entertainment'].append(labels['entertainment'])
-        self.train_label['foto'].append(labels['foto'])
-        self.train_label['global'].append(labels['global'])
-        self.train_label['hankam'].append(labels['hankam'])
-        self.train_label['history'].append(labels['history'])
-        self.train_label['hukum'].append(labels['hukum'])
-        self.train_label['kesehatan'].append(labels['kesehatan'])
-        self.train_label['khazanah'].append(labels['khazanah'])
-        self.train_label['lifestyle'].append(labels['lifestyle'])
-        self.train_label['metro'].append(labels['metro'])
-        self.train_label['militer'].append(labels['militer'])
-        self.train_label['nasional'].append(labels['nasional'])
-        self.train_label['otomotif'].append(labels['otomotif'])
-        self.train_label['peristiwa'].append(labels['peristiwa'])
-        self.train_label['politik'].append(labels['politik'])
-        self.train_label['property'].append(labels['property'])
-        self.train_label['seleb'].append(labels['seleb'])
-        self.train_label['sosmed'].append(labels['sosmed'])
-        self.train_label['sport'].append(labels['sport'])
-        self.train_label['techno'].append(labels['techno'])
+        ## True Labels Count
+        self.train_true_labels_count['daerah'].append(true_labels['daerah'].count(1))
+        self.train_true_labels_count['ekbis'].append(true_labels['ekbis'].count(1))
+        self.train_true_labels_count['entertainment'].append(true_labels['entertainment'].count(1))
+        self.train_true_labels_count['foto'].append(true_labels['foto'].count(1))
+        self.train_true_labels_count['global'].append(true_labels['global'].count(1))
+        self.train_true_labels_count['hankam'].append(true_labels['hankam'].count(1))
+        self.train_true_labels_count['history'].append(true_labels['history'].count(1))
+        self.train_true_labels_count['hukum'].append(true_labels['hukum'].count(1))
+        self.train_true_labels_count['kesehatan'].append(true_labels['kesehatan'].count(1))
+        self.train_true_labels_count['khazanah'].append(true_labels['khazanah'].count(1))
+        self.train_true_labels_count['lifestyle'].append(true_labels['lifestyle'].count(1))
+        self.train_true_labels_count['metro'].append(true_labels['metro'].count(1))
+        self.train_true_labels_count['militer'].append(true_labels['militer'].count(1))
+        self.train_true_labels_count['nasional'].append(true_labels['nasional'].count(1))
+        self.train_true_labels_count['otomotif'].append(true_labels['otomotif'].count(1))
+        self.train_true_labels_count['peristiwa'].append(true_labels['peristiwa'].count(1))
+        self.train_true_labels_count['politik'].append(true_labels['politik'].count(1))
+        self.train_true_labels_count['property'].append(true_labels['property'].count(1))
+        self.train_true_labels_count['seleb'].append(true_labels['seleb'].count(1))
+        self.train_true_labels_count['sosmed'].append(true_labels['sosmed'].count(1))
+        self.train_true_labels_count['sport'].append(true_labels['sport'].count(1))
+        self.train_true_labels_count['techno'].append(true_labels['techno'].count(1))
+        
+        ## Prediction Labels Count
+        self.train_prediction_labels_count['daerah'].append(prediction_labels['daerah'].count(1))
+        self.train_prediction_labels_count['ekbis'].append(prediction_labels['ekbis'].count(1))
+        self.train_prediction_labels_count['entertainment'].append(prediction_labels['entertainment'].count(1))
+        self.train_prediction_labels_count['foto'].append(prediction_labels['foto'].count(1))
+        self.train_prediction_labels_count['global'].append(prediction_labels['global'].count(1))
+        self.train_prediction_labels_count['hankam'].append(prediction_labels['hankam'].count(1))
+        self.train_prediction_labels_count['history'].append(prediction_labels['history'].count(1))
+        self.train_prediction_labels_count['hukum'].append(prediction_labels['hukum'].count(1))
+        self.train_prediction_labels_count['kesehatan'].append(prediction_labels['kesehatan'].count(1))
+        self.train_prediction_labels_count['khazanah'].append(prediction_labels['khazanah'].count(1))
+        self.train_prediction_labels_count['lifestyle'].append(prediction_labels['lifestyle'].count(1))
+        self.train_prediction_labels_count['metro'].append(prediction_labels['metro'].count(1))
+        self.train_prediction_labels_count['militer'].append(prediction_labels['militer'].count(1))
+        self.train_prediction_labels_count['nasional'].append(prediction_labels['nasional'].count(1))
+        self.train_prediction_labels_count['otomotif'].append(prediction_labels['otomotif'].count(1))
+        self.train_prediction_labels_count['peristiwa'].append(prediction_labels['peristiwa'].count(1))
+        self.train_prediction_labels_count['politik'].append(prediction_labels['politik'].count(1))
+        self.train_prediction_labels_count['property'].append(prediction_labels['property'].count(1))
+        self.train_prediction_labels_count['seleb'].append(prediction_labels['seleb'].count(1))
+        self.train_prediction_labels_count['sosmed'].append(prediction_labels['sosmed'].count(1))
+        self.train_prediction_labels_count['sport'].append(prediction_labels['sport'].count(1))
+        self.train_prediction_labels_count['techno'].append(prediction_labels['techno'].count(1))
 
-        ## scores
+        ## Scores
         self.train_score['f1_micro'].append(mean(scores['f1_micro']))
         self.train_score['f1_macro'].append(mean(scores['f1_macro']))
         self.train_score['loss'].append(mean(scores['loss']))
         self.train_score['accuracy'].append(mean(scores['accuracy']))
 
-        ## Label count
-        labels_count['daerah'] = labels['daerah'].count(1)
-        labels_count['ekbis'] = labels['ekbis'].count(1)
-        labels_count['entertainment'] = labels['entertainment'].count(1)
-        labels_count['foto'] = labels['foto'].count(1)
-        labels_count['global'] = labels['global'].count(1)
-        labels_count['hankam'] = labels['hankam'].count(1)
-        labels_count['history'] = labels['history'].count(1)
-        labels_count['hukum'] = labels['hukum'].count(1)
-        labels_count['kesehatan'] = labels['kesehatan'].count(1)
-        labels_count['khazanah'] = labels['khazanah'].count(1)
-        labels_count['lifestyle'] = labels['lifestyle'].count(1)
-        labels_count['metro'] = labels['metro'].count(1)
-        labels_count['militer'] = labels['militer'].count(1)
-        labels_count['nasional'] = labels['nasional'].count(1)
-        labels_count['otomotif'] = labels['otomotif'].count(1)
-        labels_count['peristiwa'] = labels['peristiwa'].count(1)
-        labels_count['politik'] = labels['politik'].count(1)
-        labels_count['property'] = labels['property'].count(1)
-        labels_count['seleb'] = labels['seleb'].count(1)
-        labels_count['sosmed'] = labels['sosmed'].count(1)
-        labels_count['sport'] = labels['sport'].count(1)
-        labels_count['techno'] = labels['techno'].count(1)
-
-        ## Labels count
-        self.train_labels_count['daerah'].append(labels_count['daerah'])
-        self.train_labels_count['ekbis'].append(labels_count['ekbis'])
-        self.train_labels_count['entertainment'].append(labels_count['entertainment'])
-        self.train_labels_count['foto'].append(labels_count['foto'])
-        self.train_labels_count['global'].append(labels_count['global'])
-        self.train_labels_count['hankam'].append(labels_count['hankam'])
-        self.train_labels_count['history'].append(labels_count['history'])
-        self.train_labels_count['hukum'].append(labels_count['hukum'])
-        self.train_labels_count['kesehatan'].append(labels_count['kesehatan'])
-        self.train_labels_count['khazanah'].append(labels_count['khazanah'])
-        self.train_labels_count['lifestyle'].append(labels_count['lifestyle'])
-        self.train_labels_count['metro'].append(labels_count['metro'])
-        self.train_labels_count['militer'].append(labels_count['militer'])
-        self.train_labels_count['nasional'].append(labels_count['nasional'])
-        self.train_labels_count['otomotif'].append(labels_count['otomotif'])
-        self.train_labels_count['peristiwa'].append(labels_count['peristiwa'])
-        self.train_labels_count['politik'].append(labels_count['politik'])
-        self.train_labels_count['property'].append(labels_count['property'])
-        self.train_labels_count['seleb'].append(labels_count['seleb'])
-        self.train_labels_count['sosmed'].append(labels_count['sosmed'])
-        self.train_labels_count['sport'].append(labels_count['sport'])
-        self.train_labels_count['techno'].append(labels_count['techno'])
-
         df_scores = pd.DataFrame.from_dict(self.train_score)
-        df_labels = pd.DataFrame.from_dict(self.train_label)
-        df_labels_count = pd.DataFrame.from_dict(self.train_labels_count)
+        df_true_labels_count = pd.DataFrame.from_dict(self.train_true_labels_count)
+        df_prediction_labels_count = pd.DataFrame.from_dict(self.train_prediction_labels_count)
 
         df_scores.to_csv('training_scores.csv')
-        df_labels.to_csv('training_labels.csv')
-        df_labels_count.to_csv('training_labels_count.csv')
+        df_true_labels_count.to_csv('training_true_labels_count.csv')
+        df_prediction_labels_count.to_csv('training_prediction_labels_count.csv')
 
         self.create_figure(self.train_score['f1_micro'], 'training_f1_score_micro.png', 'f1-score micro')
         self.create_figure(self.train_score['f1_macro'], 'training_f1_score_macro.png', 'f1-score macro')
         self.create_figure(self.train_score['loss'], 'training_loss.png', 'loss')
         self.create_figure(self.train_score['accuracy'], 'training_accuracy.png', 'accuracy')
 
-        print('F1-Score Micro = ', "{:.4f}".format(mean(scores['f1_micro'])), '| F1-Score Macro = ', "{:.4f}".format(mean(scores['f1_macro'])), '| Loss = ', "{:.4f}".format(mean(scores['loss'])), f'| Accuracy = {mean(scores["accuracy"])*100:.2f}%')
-
-        # print('Politik = ', str(labels['politik'].count(1)))
+        print('F1-Score Micro = ', "{:.4f}".format(mean(scores['f1_micro'])), 
+              '| F1-Score Macro = ', "{:.4f}".format(mean(scores['f1_macro'])), 
+              '| Loss = ', "{:.4f}".format(mean(scores['loss'])), 
+              f'| Accuracy = {mean(scores["accuracy"])*100:.2f}%')
 
         ## print "{:.2f}".format(56.455323)
         ## print(f'accuracy: {a*100:.2f}%')
@@ -490,7 +491,7 @@ class MultiClassModel(pl.LightningModule):
             'accuracy': []
         }
 
-        labels = {
+        true_labels = {
             'daerah': [],
             'ekbis': [],
             'entertainment': [],
@@ -515,7 +516,7 @@ class MultiClassModel(pl.LightningModule):
             'techno': []
         }
 
-        labels_count = {
+        prediction_labels = {
             'daerah': [],
             'ekbis': [],
             'entertainment': [],
@@ -541,29 +542,53 @@ class MultiClassModel(pl.LightningModule):
         }
 
         for output in outputs:
-            ## labels
-            labels['daerah'].append(output['labels'][0][0].detach().cpu().item())
-            labels['ekbis'].append(output['labels'][0][1].detach().cpu().item())
-            labels['entertainment'].append(output['labels'][0][2].detach().cpu().item())
-            labels['foto'].append(output['labels'][0][3].detach().cpu().item())
-            labels['global'].append(output['labels'][0][4].detach().cpu().item())
-            labels['hankam'].append(output['labels'][0][5].detach().cpu().item())
-            labels['history'].append(output['labels'][0][6].detach().cpu().item())
-            labels['hukum'].append(output['labels'][0][7].detach().cpu().item())
-            labels['kesehatan'].append(output['labels'][0][8].detach().cpu().item())
-            labels['khazanah'].append(output['labels'][0][9].detach().cpu().item())
-            labels['lifestyle'].append(output['labels'][0][10].detach().cpu().item())
-            labels['metro'].append(output['labels'][0][11].detach().cpu().item())
-            labels['militer'].append(output['labels'][0][12].detach().cpu().item())
-            labels['nasional'].append(output['labels'][0][13].detach().cpu().item())
-            labels['otomotif'].append(output['labels'][0][14].detach().cpu().item())
-            labels['peristiwa'].append(output['labels'][0][15].detach().cpu().item())
-            labels['politik'].append(output['labels'][0][16].detach().cpu().item())
-            labels['property'].append(output['labels'][0][17].detach().cpu().item())
-            labels['seleb'].append(output['labels'][0][18].detach().cpu().item())
-            labels['sosmed'].append(output['labels'][0][19].detach().cpu().item())
-            labels['sport'].append(output['labels'][0][20].detach().cpu().item())
-            labels['techno'].append(output['labels'][0][21].detach().cpu().item())
+            ## True Labels
+            true_labels['daerah'].append(output['labels'][0][0].detach().cpu().item())
+            true_labels['ekbis'].append(output['labels'][0][1].detach().cpu().item())
+            true_labels['entertainment'].append(output['labels'][0][2].detach().cpu().item())
+            true_labels['foto'].append(output['labels'][0][3].detach().cpu().item())
+            true_labels['global'].append(output['labels'][0][4].detach().cpu().item())
+            true_labels['hankam'].append(output['labels'][0][5].detach().cpu().item())
+            true_labels['history'].append(output['labels'][0][6].detach().cpu().item())
+            true_labels['hukum'].append(output['labels'][0][7].detach().cpu().item())
+            true_labels['kesehatan'].append(output['labels'][0][8].detach().cpu().item())
+            true_labels['khazanah'].append(output['labels'][0][9].detach().cpu().item())
+            true_labels['lifestyle'].append(output['labels'][0][10].detach().cpu().item())
+            true_labels['metro'].append(output['labels'][0][11].detach().cpu().item())
+            true_labels['militer'].append(output['labels'][0][12].detach().cpu().item())
+            true_labels['nasional'].append(output['labels'][0][13].detach().cpu().item())
+            true_labels['otomotif'].append(output['labels'][0][14].detach().cpu().item())
+            true_labels['peristiwa'].append(output['labels'][0][15].detach().cpu().item())
+            true_labels['politik'].append(output['labels'][0][16].detach().cpu().item())
+            true_labels['property'].append(output['labels'][0][17].detach().cpu().item())
+            true_labels['seleb'].append(output['labels'][0][18].detach().cpu().item())
+            true_labels['sosmed'].append(output['labels'][0][19].detach().cpu().item())
+            true_labels['sport'].append(output['labels'][0][20].detach().cpu().item())
+            true_labels['techno'].append(output['labels'][0][21].detach().cpu().item())
+            
+            ## Prediction Labels
+            prediction_labels['daerah'].append(output['predictions'][0][0].detach().cpu().item())
+            prediction_labels['ekbis'].append(output['predictions'][0][1].detach().cpu().item())
+            prediction_labels['entertainment'].append(output['predictions'][0][2].detach().cpu().item())
+            prediction_labels['foto'].append(output['predictions'][0][3].detach().cpu().item())
+            prediction_labels['global'].append(output['predictions'][0][4].detach().cpu().item())
+            prediction_labels['hankam'].append(output['predictions'][0][5].detach().cpu().item())
+            prediction_labels['history'].append(output['predictions'][0][6].detach().cpu().item())
+            prediction_labels['hukum'].append(output['predictions'][0][7].detach().cpu().item())
+            prediction_labels['kesehatan'].append(output['predictions'][0][8].detach().cpu().item())
+            prediction_labels['khazanah'].append(output['predictions'][0][9].detach().cpu().item())
+            prediction_labels['lifestyle'].append(output['predictions'][0][10].detach().cpu().item())
+            prediction_labels['metro'].append(output['predictions'][0][11].detach().cpu().item())
+            prediction_labels['militer'].append(output['predictions'][0][12].detach().cpu().item())
+            prediction_labels['nasional'].append(output['predictions'][0][13].detach().cpu().item())
+            prediction_labels['otomotif'].append(output['predictions'][0][14].detach().cpu().item())
+            prediction_labels['peristiwa'].append(output['predictions'][0][15].detach().cpu().item())
+            prediction_labels['politik'].append(output['predictions'][0][16].detach().cpu().item())
+            prediction_labels['property'].append(output['predictions'][0][17].detach().cpu().item())
+            prediction_labels['seleb'].append(output['predictions'][0][18].detach().cpu().item())
+            prediction_labels['sosmed'].append(output['predictions'][0][19].detach().cpu().item())
+            prediction_labels['sport'].append(output['predictions'][0][20].detach().cpu().item())
+            prediction_labels['techno'].append(output['predictions'][0][21].detach().cpu().item())
 
             ## scores
             scores['f1_micro'].append(output['f1_micro'])
@@ -571,100 +596,77 @@ class MultiClassModel(pl.LightningModule):
             scores['loss'].append(output['val_loss'].detach().cpu().item())
             scores['accuracy'].append(output['accuracy'])
         
-        ## labels
-        self.validation_label['daerah'].append(labels['daerah'])
-        self.validation_label['ekbis'].append(labels['ekbis'])
-        self.validation_label['entertainment'].append(labels['entertainment'])
-        self.validation_label['foto'].append(labels['foto'])
-        self.validation_label['global'].append(labels['global'])
-        self.validation_label['hankam'].append(labels['hankam'])
-        self.validation_label['history'].append(labels['history'])
-        self.validation_label['hukum'].append(labels['hukum'])
-        self.validation_label['kesehatan'].append(labels['kesehatan'])
-        self.validation_label['khazanah'].append(labels['khazanah'])
-        self.validation_label['lifestyle'].append(labels['lifestyle'])
-        self.validation_label['metro'].append(labels['metro'])
-        self.validation_label['militer'].append(labels['militer'])
-        self.validation_label['nasional'].append(labels['nasional'])
-        self.validation_label['otomotif'].append(labels['otomotif'])
-        self.validation_label['peristiwa'].append(labels['peristiwa'])
-        self.validation_label['politik'].append(labels['politik'])
-        self.validation_label['property'].append(labels['property'])
-        self.validation_label['seleb'].append(labels['seleb'])
-        self.validation_label['sosmed'].append(labels['sosmed'])
-        self.validation_label['sport'].append(labels['sport'])
-        self.validation_label['techno'].append(labels['techno'])
+        ## True Labels Count
+        self.validation_true_labels_count['daerah'].append(true_labels['daerah'].count(1))
+        self.validation_true_labels_count['ekbis'].append(true_labels['ekbis'].count(1))
+        self.validation_true_labels_count['entertainment'].append(true_labels['entertainment'].count(1))
+        self.validation_true_labels_count['foto'].append(true_labels['foto'].count(1))
+        self.validation_true_labels_count['global'].append(true_labels['global'].count(1))
+        self.validation_true_labels_count['hankam'].append(true_labels['hankam'].count(1))
+        self.validation_true_labels_count['history'].append(true_labels['history'].count(1))
+        self.validation_true_labels_count['hukum'].append(true_labels['hukum'].count(1))
+        self.validation_true_labels_count['kesehatan'].append(true_labels['kesehatan'].count(1))
+        self.validation_true_labels_count['khazanah'].append(true_labels['khazanah'].count(1))
+        self.validation_true_labels_count['lifestyle'].append(true_labels['lifestyle'].count(1))
+        self.validation_true_labels_count['metro'].append(true_labels['metro'].count(1))
+        self.validation_true_labels_count['militer'].append(true_labels['militer'].count(1))
+        self.validation_true_labels_count['nasional'].append(true_labels['nasional'].count(1))
+        self.validation_true_labels_count['otomotif'].append(true_labels['otomotif'].count(1))
+        self.validation_true_labels_count['peristiwa'].append(true_labels['peristiwa'].count(1))
+        self.validation_true_labels_count['politik'].append(true_labels['politik'].count(1))
+        self.validation_true_labels_count['property'].append(true_labels['property'].count(1))
+        self.validation_true_labels_count['seleb'].append(true_labels['seleb'].count(1))
+        self.validation_true_labels_count['sosmed'].append(true_labels['sosmed'].count(1))
+        self.validation_true_labels_count['sport'].append(true_labels['sport'].count(1))
+        self.validation_true_labels_count['techno'].append(true_labels['techno'].count(1))
 
-        ## scores
+        ## Prediction Labels Count
+        self.validation_prediction_labels_count['daerah'].append(prediction_labels['daerah'].count(1))
+        self.validation_prediction_labels_count['ekbis'].append(prediction_labels['ekbis'].count(1))
+        self.validation_prediction_labels_count['entertainment'].append(prediction_labels['entertainment'].count(1))
+        self.validation_prediction_labels_count['foto'].append(prediction_labels['foto'].count(1))
+        self.validation_prediction_labels_count['global'].append(prediction_labels['global'].count(1))
+        self.validation_prediction_labels_count['hankam'].append(prediction_labels['hankam'].count(1))
+        self.validation_prediction_labels_count['history'].append(prediction_labels['history'].count(1))
+        self.validation_prediction_labels_count['hukum'].append(prediction_labels['hukum'].count(1))
+        self.validation_prediction_labels_count['kesehatan'].append(prediction_labels['kesehatan'].count(1))
+        self.validation_prediction_labels_count['khazanah'].append(prediction_labels['khazanah'].count(1))
+        self.validation_prediction_labels_count['lifestyle'].append(prediction_labels['lifestyle'].count(1))
+        self.validation_prediction_labels_count['metro'].append(prediction_labels['metro'].count(1))
+        self.validation_prediction_labels_count['militer'].append(prediction_labels['militer'].count(1))
+        self.validation_prediction_labels_count['nasional'].append(prediction_labels['nasional'].count(1))
+        self.validation_prediction_labels_count['otomotif'].append(prediction_labels['otomotif'].count(1))
+        self.validation_prediction_labels_count['peristiwa'].append(prediction_labels['peristiwa'].count(1))
+        self.validation_prediction_labels_count['politik'].append(prediction_labels['politik'].count(1))
+        self.validation_prediction_labels_count['property'].append(prediction_labels['property'].count(1))
+        self.validation_prediction_labels_count['seleb'].append(prediction_labels['seleb'].count(1))
+        self.validation_prediction_labels_count['sosmed'].append(prediction_labels['sosmed'].count(1))
+        self.validation_prediction_labels_count['sport'].append(prediction_labels['sport'].count(1))
+        self.validation_prediction_labels_count['techno'].append(prediction_labels['techno'].count(1))
+
+        ## Scores
         self.validation_score['f1_micro'].append(mean(scores['f1_micro']))
         self.validation_score['f1_macro'].append(mean(scores['f1_macro']))
         self.validation_score['loss'].append(mean(scores['loss']))
         self.validation_score['accuracy'].append(mean(scores['accuracy']))
 
-        ## Label count
-        labels_count['daerah'] = labels['daerah'].count(1)
-        labels_count['ekbis'] = labels['ekbis'].count(1)
-        labels_count['entertainment'] = labels['entertainment'].count(1)
-        labels_count['foto'] = labels['foto'].count(1)
-        labels_count['global'] = labels['global'].count(1)
-        labels_count['hankam'] = labels['hankam'].count(1)
-        labels_count['history'] = labels['history'].count(1)
-        labels_count['hukum'] = labels['hukum'].count(1)
-        labels_count['kesehatan'] = labels['kesehatan'].count(1)
-        labels_count['khazanah'] = labels['khazanah'].count(1)
-        labels_count['lifestyle'] = labels['lifestyle'].count(1)
-        labels_count['metro'] = labels['metro'].count(1)
-        labels_count['militer'] = labels['militer'].count(1)
-        labels_count['nasional'] = labels['nasional'].count(1)
-        labels_count['otomotif'] = labels['otomotif'].count(1)
-        labels_count['peristiwa'] = labels['peristiwa'].count(1)
-        labels_count['politik'] = labels['politik'].count(1)
-        labels_count['property'] = labels['property'].count(1)
-        labels_count['seleb'] = labels['seleb'].count(1)
-        labels_count['sosmed'] = labels['sosmed'].count(1)
-        labels_count['sport'] = labels['sport'].count(1)
-        labels_count['techno'] = labels['techno'].count(1)
-
-        ## Labels count
-        self.validation_labels_count['daerah'].append(labels_count['daerah'])
-        self.validation_labels_count['ekbis'].append(labels_count['ekbis'])
-        self.validation_labels_count['entertainment'].append(labels_count['entertainment'])
-        self.validation_labels_count['foto'].append(labels_count['foto'])
-        self.validation_labels_count['global'].append(labels_count['global'])
-        self.validation_labels_count['hankam'].append(labels_count['hankam'])
-        self.validation_labels_count['history'].append(labels_count['history'])
-        self.validation_labels_count['hukum'].append(labels_count['hukum'])
-        self.validation_labels_count['kesehatan'].append(labels_count['kesehatan'])
-        self.validation_labels_count['khazanah'].append(labels_count['khazanah'])
-        self.validation_labels_count['lifestyle'].append(labels_count['lifestyle'])
-        self.validation_labels_count['metro'].append(labels_count['metro'])
-        self.validation_labels_count['militer'].append(labels_count['militer'])
-        self.validation_labels_count['nasional'].append(labels_count['nasional'])
-        self.validation_labels_count['otomotif'].append(labels_count['otomotif'])
-        self.validation_labels_count['peristiwa'].append(labels_count['peristiwa'])
-        self.validation_labels_count['politik'].append(labels_count['politik'])
-        self.validation_labels_count['property'].append(labels_count['property'])
-        self.validation_labels_count['seleb'].append(labels_count['seleb'])
-        self.validation_labels_count['sosmed'].append(labels_count['sosmed'])
-        self.validation_labels_count['sport'].append(labels_count['sport'])
-        self.validation_labels_count['techno'].append(labels_count['techno'])
-
         df_scores = pd.DataFrame.from_dict(self.validation_score)
-        df_labels = pd.DataFrame.from_dict(self.validation_label)
-        df_labels_count = pd.DataFrame.from_dict(self.validation_labels_count)
+        df_true_labels_count = pd.DataFrame.from_dict(self.validation_true_labels_count)
+        df_prediction_labels_count = pd.DataFrame.from_dict(self.validation_prediction_labels_count)
 
         df_scores.to_csv('validation_scores.csv')
-        df_labels.to_csv('validation_labels.csv')
-        df_labels_count.to_csv('validation_labels_count.csv')
+        df_true_labels_count.to_csv('validation_true_labels_count.csv')
+        df_prediction_labels_count.to_csv('validation_prediction_labels_count.csv')
 
         self.create_figure(self.validation_score['f1_micro'], 'validation_f1_score_micro.png', 'f1-score micro')
         self.create_figure(self.validation_score['f1_macro'], 'validation_f1_score_macro.png', 'f1-score macro')
         self.create_figure(self.validation_score['loss'], 'validation_loss.png', 'loss')
         self.create_figure(self.validation_score['accuracy'], 'validation_accuracy.png', 'accuracy')
 
-        print('Val F1-Score Micro = ', "{:.4f}".format(mean(scores['f1_micro'])), '| Val F1-Score Macro = ', "{:.4f}".format(mean(scores['f1_macro'])), '| Val Loss = ', "{:.4f}".format(mean(scores['loss'])), f'| Val Accuracy = {mean(scores["accuracy"])*100:.2f}%')
-
-        # print('Politik = ', str(labels['politik'].count(1)))
+        print('Val F1-Score Micro = ', "{:.4f}".format(mean(scores['f1_micro'])), 
+              '| Val F1-Score Macro = ', "{:.4f}".format(mean(scores['f1_macro'])), 
+              '| Val Loss = ', "{:.4f}".format(mean(scores['loss'])), 
+              f'| Val Accuracy = {mean(scores["accuracy"])*100:.2f}%')
 
     def test_epoch_end(self, outputs):
         scores = {
@@ -673,9 +675,186 @@ class MultiClassModel(pl.LightningModule):
             'accuracy': []
         }
 
+        true_labels_count = {
+            'daerah': [],
+            'ekbis': [],
+            'entertainment': [],
+            'foto': [],
+            'global': [],
+            'hankam': [],
+            'history': [],
+            'hukum': [],
+            'kesehatan': [],
+            'khazanah': [],
+            'lifestyle': [],
+            'metro': [],
+            'militer': [],
+            'nasional': [],
+            'otomotif': [],
+            'peristiwa': [],
+            'politik': [],
+            'property': [],
+            'seleb': [],
+            'sosmed': [],
+            'sport': [],
+            'techno': []
+        }
+
+        predictions_labels_count = {
+            'daerah': [],
+            'ekbis': [],
+            'entertainment': [],
+            'foto': [],
+            'global': [],
+            'hankam': [],
+            'history': [],
+            'hukum': [],
+            'kesehatan': [],
+            'khazanah': [],
+            'lifestyle': [],
+            'metro': [],
+            'militer': [],
+            'nasional': [],
+            'otomotif': [],
+            'peristiwa': [],
+            'politik': [],
+            'property': [],
+            'seleb': [],
+            'sosmed': [],
+            'sport': [],
+            'techno': []
+        }
+
+        predictions_labels = []
+        true_labels = []
+
         for output in outputs:
+            # print(output)
+                
+            ## Scores
             scores['f1_micro'].append(output['f1_micro'])
             scores['f1_macro'].append(output['f1_macro'])
             scores['accuracy'].append(output['accuracy'])
+
+            ## True Labels
+            for true in output['labels'].detach().cpu().numpy():
+                # print(true)
+                true_labels.append(true)
+            
+            ## Predict Labels
+            for pred in output['predictions'].detach().cpu().numpy():
+                predictions_labels.append(pred)
         
-        print('F1-Score Micro = ', mean(scores['f1_micro']), 'F1-Score Macro = ', mean(scores['f1_macro']), ' Accuracy = ', mean(scores['accuracy']))
+        ## True Labels Count
+        true_labels_count['daerah'].append(true_labels.count(0))
+        true_labels_count['ekbis'].append(true_labels.count(1))
+        true_labels_count['entertainment'].append(true_labels.count(2))
+        true_labels_count['foto'].append(true_labels.count(3))
+        true_labels_count['global'].append(true_labels.count(4))
+        true_labels_count['hankam'].append(true_labels.count(5))
+        true_labels_count['history'].append(true_labels.count(6))
+        true_labels_count['hukum'].append(true_labels.count(7))
+        true_labels_count['kesehatan'].append(true_labels.count(8))
+        true_labels_count['khazanah'].append(true_labels.count(9))
+        true_labels_count['lifestyle'].append(true_labels.count(10))
+        true_labels_count['metro'].append(true_labels.count(11))
+        true_labels_count['militer'].append(true_labels.count(12))
+        true_labels_count['nasional'].append(true_labels.count(13))
+        true_labels_count['otomotif'].append(true_labels.count(14))
+        true_labels_count['peristiwa'].append(true_labels.count(15))
+        true_labels_count['politik'].append(true_labels.count(16))
+        true_labels_count['property'].append(true_labels.count(17))
+        true_labels_count['seleb'].append(true_labels.count(18))
+        true_labels_count['sosmed'].append(true_labels.count(19))
+        true_labels_count['sport'].append(true_labels.count(20))
+        true_labels_count['techno'].append(true_labels.count(21))
+
+        ## Prediction Labels Count
+        predictions_labels_count['daerah'].append(predictions_labels.count(0))
+        predictions_labels_count['ekbis'].append(predictions_labels.count(1))
+        predictions_labels_count['entertainment'].append(predictions_labels.count(2))
+        predictions_labels_count['foto'].append(predictions_labels.count(3))
+        predictions_labels_count['global'].append(predictions_labels.count(4))
+        predictions_labels_count['hankam'].append(predictions_labels.count(5))
+        predictions_labels_count['history'].append(predictions_labels.count(6))
+        predictions_labels_count['hukum'].append(predictions_labels.count(7))
+        predictions_labels_count['kesehatan'].append(predictions_labels.count(8))
+        predictions_labels_count['khazanah'].append(predictions_labels.count(9))
+        predictions_labels_count['lifestyle'].append(predictions_labels.count(10))
+        predictions_labels_count['metro'].append(predictions_labels.count(11))
+        predictions_labels_count['militer'].append(predictions_labels.count(12))
+        predictions_labels_count['nasional'].append(predictions_labels.count(13))
+        predictions_labels_count['otomotif'].append(predictions_labels.count(14))
+        predictions_labels_count['peristiwa'].append(predictions_labels.count(15))
+        predictions_labels_count['politik'].append(predictions_labels.count(16))
+        predictions_labels_count['property'].append(predictions_labels.count(17))
+        predictions_labels_count['seleb'].append(predictions_labels.count(18))
+        predictions_labels_count['sosmed'].append(predictions_labels.count(19))
+        predictions_labels_count['sport'].append(predictions_labels.count(20))
+        predictions_labels_count['techno'].append(predictions_labels.count(21))
+        
+        ## Scores
+        print('F1-Score Micro = ', mean(scores['f1_micro']), 
+              '| F1-Score Macro = ', mean(scores['f1_macro']), 
+              f'accuracy: {mean(scores["accuracy"])*100:.2f}%')
+        
+        ## Display True Labels
+        print('\nTrue Labels')
+        print('Daerah = ', true_labels_count['daerah'])
+        print('Ekbis = ', true_labels_count['ekbis'])
+        print('Entertainment = ', true_labels_count['entertainment'])
+        print('Foto = ', true_labels_count['foto'])
+        print('Global = ', true_labels_count['global'])
+        print('Hankam = ', true_labels_count['hankam'])
+        print('History = ', true_labels_count['history'])
+        print('Hukum = ', true_labels_count['hukum'])
+        print('Kesehatan = ', true_labels_count['kesehatan'])
+        print('Khazanah = ', true_labels_count['khazanah'])
+        print('Lifestyle = ', true_labels_count['lifestyle'])
+        print('Metro = ', true_labels_count['metro'])
+        print('Militer = ', true_labels_count['militer'])
+        print('Nasional = ', true_labels_count['nasional'])
+        print('Otomotif = ', true_labels_count['otomotif'])
+        print('Peristiwa = ', true_labels_count['peristiwa'])
+        print('Politik = ', true_labels_count['politik'])
+        print('Property = ', true_labels_count['property'])
+        print('Seleb = ', true_labels_count['seleb'])
+        print('Sosmed = ', true_labels_count['sosmed'])
+        print('Sport = ', true_labels_count['sport'])
+        print('Techno = ', true_labels_count['techno'])
+
+        ## Display Prediction Labels
+        print('\nPrediction Labels')
+        print('Daerah = ', predictions_labels_count['daerah'])
+        print('Ekbis = ', predictions_labels_count['ekbis'])
+        print('Entertainment = ', predictions_labels_count['entertainment'])
+        print('Foto = ', predictions_labels_count['foto'])
+        print('Global = ', predictions_labels_count['global'])
+        print('Hankam = ', predictions_labels_count['hankam'])
+        print('History = ', predictions_labels_count['history'])
+        print('Hukum = ', predictions_labels_count['hukum'])
+        print('Kesehatan = ', predictions_labels_count['kesehatan'])
+        print('Khazanah = ', predictions_labels_count['khazanah'])
+        print('Lifestyle = ', predictions_labels_count['lifestyle'])
+        print('Metro = ', predictions_labels_count['metro'])
+        print('Militer = ', predictions_labels_count['militer'])
+        print('Nasional = ', predictions_labels_count['nasional'])
+        print('Otomotif = ', predictions_labels_count['otomotif'])
+        print('Peristiwa = ', predictions_labels_count['peristiwa'])
+        print('Politik = ', predictions_labels_count['politik'])
+        print('Property = ', predictions_labels_count['property'])
+        print('Seleb = ', predictions_labels_count['seleb'])
+        print('Sosmed = ', predictions_labels_count['sosmed'])
+        print('Sport = ', predictions_labels_count['sport'])
+        print('Techno = ', predictions_labels_count['techno'])
+
+        df_true_labels = pd.DataFrame.from_dict(true_labels_count)
+        df_prediction_labels = pd.DataFrame.from_dict(predictions_labels_count)
+
+        df_true_labels.to_csv('test_true_labels.csv')
+        df_prediction_labels.to_csv('test_prediction_labels.csv')
+
+        ## output
+        ## F1-Score Micro =  0.06022727272727274 
+        ## F1-Score Macro =  0.02574716472951051 
+        ## accuracy: 6.02%

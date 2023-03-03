@@ -40,7 +40,7 @@ class PreprocessorClass(pl.LightningDataModule):
         # news_data_groupby_label = news_data.groupby("label")
 
         ## jumlah masing-masing label 
-        # news_data_groupby_label["label"].count()
+        # print(news_data_groupby_label["label"].count())
 
         # news_data_raw = news_data.rename(columns={1: "judul", 2: "label", 3: "isi_berita", 4: "url"})
 
